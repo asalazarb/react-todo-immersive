@@ -1,12 +1,13 @@
 import React from 'react'
 import uuid from 'uuid/v1'
+import { connect } from 'react-redux'
 import TodoList from './TodoList'
+import { addTodo } from './actions'
 
 
 class TodoContainer extends React.Component {
     state = {
-      todos: [],
-      newTodoVal: '',
+      newTodoVal: ''
     }
 
     componentDidMount() {
@@ -29,13 +30,8 @@ class TodoContainer extends React.Component {
     }
 
     handleSubmit = () => {
-      const newTodo = {
-        id: uuid(),
-        value: this.state.newTodoVal,
-        done: false,
-      };
-      this.setState({ todos: [...this.state.todos, newTodo] });
-      this.setState({ newTodoVal: '' });
+      this.props.addTodo(this.state.newTodoVal)
+      this.setState({ newTodoVal: '' })
     }
 
     handleInput = (e) => {
@@ -52,9 +48,21 @@ class TodoContainer extends React.Component {
 
     render() {
       return (
-        <TodoList todos={this.state.todos} setToDone={this.setToDone} deleteTodo={this.deleteTodo} handleInput={this.handleInput} handleSubmit={this.handleSubmit} inputValue={this.state.newTodoVal} />
-      );
+        <TodoList todos={this.props.todos} setToDone={this.setToDone} deleteTodo={this.deleteTodo} handleInput={this.handleInput} handleSubmit={this.handleSubmit} inputValue={this.state.newTodoVal} />
+      )
     }
 }
 
-export default TodoContainer;
+function mapStateToProps(state) {
+  return {
+    todos: state.todos
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addTodo: value => dispatch(addTodo(value))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoContainer)
