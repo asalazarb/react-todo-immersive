@@ -9,6 +9,12 @@ class TodoContainer extends React.Component {
       newTodoVal: '',
     }
 
+    componentDidMount() {
+      fetch("http://localhost:3000/todos")
+          .then(response => response.json())
+          .then(data => this.setState({ todos: data }));
+  }
+
 
     setToDone = (e) => {
       const key = e.target.id;

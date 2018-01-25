@@ -20,7 +20,7 @@ class TodoItem extends React.Component {
 
   render() {
     if (this.props.button) {
-      return (<li><label>{this.props.value}</label><button id={this.props.id} onClick={this.props.onClickHandler}>Delete</button></li>);
+      return (<li><label>{this.props.value}</label><button className="button" id={this.props.id} onClick={this.props.onClickHandler}>Delete</button></li>);
     }
 
     return (<li><label>{this.props.value}</label><input type="checkbox" id={this.props.id} onClick={this.props.onClickHandler} /></li>);
