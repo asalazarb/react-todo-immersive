@@ -17,6 +17,22 @@ const todos = (state = DEFAULT_STATE, action) => {
           done: false
         }],
       }
+    case 'ADD_DONE':
+      return{
+        todos: state.todos.map((item) => {
+          if (item.id === action.id) {
+            item.done = true;
+          }
+          return item;
+        }),
+      }
+    case 'DELETE_TODO':
+      return{
+        
+        todos: state.todos.filter(item => item.id !== action.id)
+     
+      }
+      
     default:
       return state
   }

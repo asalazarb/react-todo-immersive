@@ -1,8 +1,8 @@
 import React from 'react'
-import uuid from 'uuid/v1'
 import { connect } from 'react-redux'
 import TodoList from './TodoList'
-import { addTodo } from './actions'
+import { addTodo, addDone, deleteTodo } from './actions'
+
 
 
 class TodoContainer extends React.Component {
@@ -10,23 +10,15 @@ class TodoContainer extends React.Component {
       newTodoVal: ''
     }
 
-    componentDidMount() {
+  /*componentDidMount() {
       fetch("http://localhost:3000/todos")
           .then(response => response.json())
           .then(data => this.setState({ todos: data }));
-  }
+  }*/
 
 
     setToDone = (e) => {
-      const key = e.target.id;
-      this.setState({
-        todos: this.state.todos.map((item) => {
-          if (item.id === key) {
-            item.done = true;
-          }
-          return item;
-        }),
-      });
+      this.props.addDone(e.target.id)
     }
 
     handleSubmit = () => {
@@ -39,10 +31,7 @@ class TodoContainer extends React.Component {
     }
 
     deleteTodo = (e) => {
-      const key = e.target.id;
-      this.setState({
-        todos: this.state.todos.filter(item => item.id !== key),
-      });
+      this.props.deleteTodo(e.target.id)
     }
 
 
@@ -61,7 +50,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    addTodo: value => dispatch(addTodo(value))
+    addTodo: value => dispatch(addTodo(value)),
+    addDone: id => dispatch(addDone(id)),
+    deleteTodo: id => dispatch(deleteTodo(id)) 
   }
 }
 
